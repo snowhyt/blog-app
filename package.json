@@ -4,9 +4,13 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run build",
-    "dev": "npx tsx --watch src/server.ts"
+    "dev": "npx tsx --watch src/server.ts",
+    "deploy": "docker-compose up --build",
+    "up-build": "docker-compose up -d",
+    "down": "docker-compose down",
+    "clean-deploy": "concurrently\"docker system prune\"\"docker-compose up build\""
+  
   },
   "keywords": [],
   "author": "",
@@ -24,6 +28,8 @@
     "@types/express": "^5.0.0",
     "@types/node": "^22.13.8",
     "@types/pg": "^8.11.11",
-    "ts-node": "^10.9.2"
+    "concurrently": "^9.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
   }
 }
