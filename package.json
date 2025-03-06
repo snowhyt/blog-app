@@ -6,7 +6,6 @@
   "scripts": {
     "build": "npm run build",
     "dev": "npx tsx --watch src/server.ts",
-    "docker": "docker-compose up --build -d",
     "up-d": "docker-compose up -d",
     "down": "docker-compose down",
     "down-up": "docker-compose down && docker-compose up -d",
@@ -17,11 +16,14 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "cloudinary": "^2.5.1",
+    "cookie-parser": "^1.4.7",
     "crypto": "^1.0.1",
     "dotenv": "^16.4.7",
     "express": "^5.0.1",
     "install": "^0.13.0",
     "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
     "pg": "^8.13.3",
     "pg-hstore": "^2.3.4",
     "pg-pool": "^3.7.1"
@@ -31,6 +33,7 @@
     "@types/node": "^22.13.8",
     "@types/pg": "^8.11.11",
     "concurrently": "^9.1.2",
+    "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   }

@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import authRoutes from "./backend/routes/auth.routes";
 dotenv.config();
 import pool from "./db";
+import cookieParser from "cookie-parser";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -13,6 +14,7 @@ app.use(express.json());
 
 // Root route
 app.use("/api/auth", authRoutes);
+app.use(cookieParser());
 
 
 

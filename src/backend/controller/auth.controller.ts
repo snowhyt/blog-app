@@ -1,8 +1,13 @@
 import e, { Request, Response } from "express";
+import { clearToken, generateToken } from "../lib/utils";
+import cloudinary from "../../backend/lib/cloudinary";
 import pool from "../../db";
 import crypto from "crypto";
-import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import multer from "multer";
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
 dotenv.config();
 
 
@@ -21,9 +26,10 @@ export const signup = async (req:Request, res: Response) => {
                 return res.status(400).json({message: "Missing required fields"});
             }
 
-            if(password != password){
-                return res.status(400).json({message: "Password do not match. Please try again."});
-            }
+            // if(password != password){
+            //     return res.status(400).json({message: "Password do not match. Please try again."});
+            // }
+
             //MD5 Hashing
             const hashedPassword = crypto.createHash('md5').update(password).digest('hex');
             //check for existing user
@@ -32,20 +38,25 @@ export const signup = async (req:Request, res: Response) => {
                 return res.status(409).json({message: "User already exists"});
             }
             
-            //into insert user
+            //into insert user, kinda messy cause I am just using psql directly
             const insertQuery = `INSERT INTO users (username, first_name, last_name, gender, email, password, role, image_url) 
                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`;
             
             const result = await pool.query(insertQuery, [username, firstname, lastname, gender, email, password, role, image_url]);
+            
+            const insertedUser = result.rows[0];
 
-            res.status(201).json({message: "User created successfully", user: result.rows[0]});
+            //jwt token, now we use the user data
+            generateToken( {id: insertedUser.id, username: insertedUser.username, role: insertedUser.role} , res);
+        
+            
+            res.status(201).json({message: "User created successfully", user: insertedUser});
             
     } catch (error) {
         console.error("Error inserting data:", error);
         res.status(500).json({message: "Signup Internal Server Error"});
     }   
 }
-
 
 //login
 export const login = async (req:Request, res: Response) => {
@@ -56,15 +67,15 @@ export const login = async (req:Request, res: Response) => {
         if (user.rows.length === 0) {
             return res.status(404).json({message: "User not found"});
         }
-      
         const userData = user.rows[0];
+
         const hashedPassword = crypto.createHash('md5').update(password).digest('hex');
         if (hashedPassword !== userData.password) {
             return res.status(401).json({ message: "Invalid credentials" });
         }
 
         //jwt token
-        const token = jwt.sign({  userId: userData.id, username: userData.username,  role: userData.role }, process.env.JWT_SECRET! || "secret",{expiresIn: "1h"});
+        const token = generateToken({  id: userData.id, username: userData.username,  role: userData.role }, res);
 
         res.status(200).json({
                 message: "Login successful", 
@@ -82,25 +93,16 @@ export const login = async (req:Request, res: Response) => {
         return res.status(500).json({message: "Server Error in Login"});
     }
 }
-
-export const logout = async (req:Request, res: Response) => {
+//logout
+export const logout = (req:Request, res: Response) => {
     const {token} = req.body;
 
     try {
-        //verify token
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || "secret");
-        if(!decoded){
-            return res.status(401).json({message: "Invalid token"});
-        }
-
-        //delete token
-        const deleteToken = await pool.query("DELETE FROM sessions WHERE token = $1", [token]);
-        if(deleteToken.rowCount === 0){
-            return res.status(401).json({message: "Invalid token"});
-        }
+        clearToken(res);
         res.status(200).json({message: "Logout successful"});
+
     } catch (error) {
-        console.log("Database query failed:", error);
+        console.log("Error in Logging out:", error);
         return res.status(500).json({message: "Server Error in Logout"});
         
     }
@@ -108,6 +110,27 @@ export const logout = async (req:Request, res: Response) => {
     
 }
 
+//update
+export const updateProfile = async (req:Request, res: Response) => {
+
+    try {
+       const {image_url} = req.body;
+        const userId = req.user.id;
+
+        if (!image_url) {
+            return res.status(400).json({message: "Missing required fields"});
+        }
+
+        const uploadResponse = await cloudinary.uploader.upload(image_url);
+        const updatedUser = await pool.query("UPDATE users SET image_url = $1 WHERE id = $2", 
+            [uploadResponse.secure_url, userId], {new: true});
+            
+            res.status(200).json(updatedUser);
+    } catch (error) {
+        console.error("Error updating profile:", error);
+        res.status(500).json({message: "Server Error in Updating Profile"});   
+    }
+}
 
 
 
