@@ -1,14 +1,39 @@
-#####
-GET http://localhost:13000
 
-######
-POST http://localhost:13000/
+#####
+GET http://localhost:13000/api/test-connection
+
+
+
+
+###### SIGNUP
+POST http://localhost:13000/api/auth/signup
 Content-Type: application/json
 
 {
-  "name": "Arlgeane",
-  "location": "landing"
+  "username": "testuser",
+  "firstname": "Test",
+  "lastname": "User",
+  "gender": "male",
+  "email": "test@example.com",
+  "password": "password123",
+  "confirmPassword": "password123",
+  "role": "user",
+  "image_url": "http://example.com/image.jpg"
 }
 
-######
-GET http://localhost:13000/setup
+###### LOGIN IN
+POST http://localhost:13000/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "berdy",
+  "password": "password123"
+}
+
+###### LOGOUT
+POST http://localhost:13000/api/auth/logout
+Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsInVzZXJuYW1lIjoiYmVyZHkiLCJyb2xlIjoidXNlciIsImlhdCI6MTcxMTQ3MTc3NCwiZXhwIjoxNzExNDc1Mzc0fQ.i6HwL8J7Z5f8-c1p3kOa175vY40s6o2-J9jJ6Y20E38"
+}

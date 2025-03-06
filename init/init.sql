@@ -6,7 +6,6 @@ CREATE TABLE users (
     gender VARCHAR(10) CHECK (gender IN ('MALE', 'FEMALE', 'OTHER')) DEFAULT 'OTHER',
     email VARCHAR(50) UNIQUE NOT NULL,
     password TEXT NOT NULL,
-    confirmPassword TEXT NOT NULL,
     role VARCHAR(10) CHECK (role IN ('ADMIN', 'USER')) DEFAULT 'USER',
     image_url TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
