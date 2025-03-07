@@ -20,7 +20,7 @@ try {
     if (!token){
     return res.status(401).json({ message: "Unauthorized. No token provided." });
     }
-    const decoded = jwt.verify(token, process.env.JWT_SECRET) as 
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as 
     { 
         userId: number; 
         username: string; 
@@ -30,7 +30,7 @@ try {
     if (!decoded) {
         return res.status(401).json({ message: "Invalid token." });
     }
-    const userResult = await pool.query("SELECT id, username, role FROM users WHERE id = $1", [decoded.userId]);
+    const userResult = await pool.query("SELECT id, username, role FROM users WHERE id = $1", [decoded.id]);
 
     if(userResult.rows.length === 0){
         return res.status(401).json({ message: "User not found." });
@@ -51,6 +51,3 @@ try {
 }
 
 }
-
-
-

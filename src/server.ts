@@ -1,6 +1,8 @@
 import express, { Request, Response } from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 import authRoutes from "./backend/routes/auth.routes";
+import blogRoutes from "./backend/routes/blog.routes";
 dotenv.config();
 import pool from "./db";
 import cookieParser from "cookie-parser";
@@ -9,16 +11,27 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 
+
+
+
+
+
 // Middlewares
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true,
+}));
+
 app.use(express.json());
 
-// Root route
-app.use("/api/auth", authRoutes);
+
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 
 
-
+app.use("/api/auth", authRoutes);
+app.use("/api/blog", blogRoutes);
 
 // Check DB connection
 async function connectToDB() {
