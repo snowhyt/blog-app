@@ -10,8 +10,8 @@ const Signup = () => {
 
   const [inputs, setInputs] = useState({
     username: "",
-    firstName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
     gender: "",
     email: "",
     password: "",

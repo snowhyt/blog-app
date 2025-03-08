@@ -8,7 +8,8 @@ import pool from "./db";
 import cookieParser from "cookie-parser";
 
 const app = express();
-const PORT = process.env.PORT || 13000;
+const PORT = process.env.PORT || 3000;
+const DB_PORT = process.env.DB_PORT || 5432;
 
 
 app.use(express.json());
@@ -41,7 +42,8 @@ async function connectToDB() {
 // Start the server and connect to the database
 app.listen(PORT, () => {
   connectToDB();
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Internal Server is running on port ${DB_PORT} and the database is connected`);
+  console.log(` ExternalServer is running on port ${PORT} Node.js`);
 });
 
 
@@ -51,16 +53,16 @@ app.listen(PORT, () => {
 
 
 
-//api-db checker
-app.get("/api/test-connection", async (req: Request, res: Response) => {
-  try {
-      const testResult = await pool.query('SELECT NOW()');
-      res.status(200).json({ message: "Database connection successful", timestamp: testResult.rows[0].now });
-  } catch (err) {
-      console.error("Failed to test database connection:", err);
-      res.status(500).json({ message: "Failed to connect to the database" });
-  }
-});
+// //api-db checker
+// app.get("/api/test-connection", async (req: Request, res: Response) => {
+//   try {
+//       const testResult = await pool.query('SELECT NOW()');
+//       res.status(200).json({ message: "Database connection successful", timestamp: testResult.rows[0].now });
+//   } catch (err) {
+//       console.error("Failed to test database connection:", err);
+//       res.status(500).json({ message: "Failed to connect to the database" });
+//   }
+// });
 
 
 

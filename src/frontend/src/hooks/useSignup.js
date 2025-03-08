@@ -1,6 +1,8 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import {useAuthContext} from '../context/authContext';
+``
+
 
 const useSignup = () => {
 
@@ -14,8 +16,8 @@ const useSignup = () => {
 
         setLoading(true);
         try {
-                //dito yung url (create a proxy to the vite config )
-            const res = await fetch("/api/auth/signup",{
+                //troubleshooting logs (create a proxy to the vite config, config 13000:4000 -> 13000: 13000, set env.process.env.PORT)
+            const res = await fetch("api/auth/signup",{
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -34,7 +36,7 @@ const useSignup = () => {
             if(data.error){
                 throw new Error(data.error);
             } 
-            localStorage.setItem("chat-user", JSON.stringify(data));
+            localStorage.setItem("blog-user", JSON.stringify(data));
             setAuthUser(data);
 
         } catch (error) {

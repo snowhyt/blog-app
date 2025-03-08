@@ -16,12 +16,14 @@ const useLogout = () =>{
                     "Content-Type": "application/json", //Content-Type is the header that specifies the type of data being sent in the request          
 
                     },
+                    //this is modified, delete it if not working.
+                    body: JSON.stringify({}),
                 });
                 const data = await res.json();
                 if(data.error){
                     throw new Error(data.error);
                 } 
-                localStorage.removeItem("chat-user");
+                localStorage.removeItem("blog-user");
                 setAuthUser(null);
 
             } catch (error) {
