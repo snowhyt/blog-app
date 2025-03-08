@@ -16,9 +16,9 @@ function App() {
           <Route path="/signup" element={<Signup />} /> {/* Route for the Signup page */}
           <Route path="/home" element={<Home />} /> {/* Route for the Home page */}
           <Route path="/" element={<Landing />} /> {/* Route for the Landing page */}
-          <Toaster/>
+         
         </Routes>
- 
+        <Toaster/>
     </Router>
    
     </div>

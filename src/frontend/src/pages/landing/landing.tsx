@@ -1,36 +1,44 @@
-//Landing.tsx
-import { Link } from "react-router-dom";
+//Home.tsx
+
+import CardContainer from "../../components/card-container";
 import NavBar from "../../components/navBar";
-
-const Landing = () => {
+const Home = () => {
   return (
-    <div className="flex flex-col items-center h-screen">
-      {/* Navigation Bar */}
-      <nav className="w-full">
-        <NavBar />
-      </nav>
+    
 
-      {/* Hero Section */}
-      <section className="flex flex-col items-center justify-center flex-1 gap-8 px-4 text-center">
-        <h1 className="text-6xl font-bold text-gray-800">
-          Welcome to Simple Blog App
-        </h1>
-        <p className="text-xl text-gray-600 max-w-2xl">
-          Discover, share, and connect with the world through our simple and
-          intuitive blogging platform. Built with PostgreSQL, React, Tailwind
-          CSS, and DaisyUI.
-        </p>
-        <div className="flex gap-6">
-          <Link to="/login" className="btn btn-primary">
-            Login
-          </Link>
-          <Link to="/signup" className="btn btn-secondary">
-            Sign Up
-          </Link>
+
+    <div className="flex flex-col items-center min-h-screen bg-amber-50">
+     
+     <NavBar />
+      <div
+        className="w-full h-[350px] flex items-center justify-center"
+        id="loginBackground"
+      >
+        <div className="flex flex-col items-center justify-center text-center">
+          <h1 className="text-4xl font-bold text-black">
+            Welcome to Simple Blog App
+          </h1>
+          <p className="text-xl text-gray-600 max-w-2xl">
+            This is a simple blog app built with PostgreSQL, React, Tailwind
+            CSS, Express and Docker.
+          </p>
         </div>
-      </section>
+      </div>
+
+      {/* Card Section */}
+      <div className="flex flex-col items-center justify-center p-8">
+
+
+
+        <div className="bg-red-200 w-[1080px] h-auto">
+
+        <CardContainer />
+
+
+        </div>
+      </div>
     </div>
   );
 };
 
-export default Landing;
+export default Home;

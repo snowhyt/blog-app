@@ -1,5 +1,3 @@
-// GenderCheckBox.tsx
-import React from "react";
 
 const GenderCheckBox = ({ onCheckboxChange, selectedGender }) => {
   return (
