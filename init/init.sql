@@ -4,11 +4,10 @@ CREATE TABLE users (
     username VARCHAR(50) UNIQUE NOT NULL,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
-    gender VARCHAR(10) CHECK (gender IN ('MALE', 'FEMALE', 'OTHER')) DEFAULT 'OTHER',
+    gender VARCHAR(10) CHECK (gender IN ('MALE', 'FEMALE' )) ,
     email VARCHAR(50) UNIQUE NOT NULL,
     password TEXT NOT NULL,
-    role VARCHAR(10) CHECK (role IN ('ADMIN', 'USER')) DEFAULT 'USER',
-    image_url TEXT NOT NULL,
+    image_url TEXT NOT NULL,     -----auto generate this using api based on gender
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

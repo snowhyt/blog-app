@@ -3,7 +3,7 @@ services:
     build: .
     image: my-blog-app
     ports:
-      - "13000:4000"
+      - "3000:5432"
     env_file:
       - .env
     depends_on:

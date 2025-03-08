@@ -6,15 +6,15 @@ import useSignup from "../../hooks/useSignup";
 
 const Signup = () => {
   const { loading, signup } = useSignup();
+  const [showPassword, setShowPassword] = useState(false);
 
   const [inputs, setInputs] = useState({
     username: "",
+    first_name: "",
+    last_name: "",
+    gender: "",
     email: "",
     password: "",
-    confirmPassword: "",
-    firstName: "",
-    lastName: "",
-    gender: "",
   });
 
   const handleCheckBoxChange = (gender) => {
@@ -23,8 +23,11 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await signup(inputs);
+    console.log(inputs);
+    await signup(inputs); //added await
   };
+
+
 
   return (
     <div
@@ -41,11 +44,11 @@ const Signup = () => {
 
         <form onSubmit={handleSubmit} className="form-control w-full max-w-md">
           {/* Username */}
-          <div className="flex flex-col mt-4">
+          <div className="flex flex-col mt-4 relative">
             <label htmlFor="username" className="label block text-left">
               <span className="label-text text-black">Username</span>
             </label>
-            <label className="input validator w-full bg-white rounded-xl border border-gray-600 ">
+            <label className="input validator w-full bg-white rounded-xl border border-gray-600 flex items-center">
               <svg
                 className="h-[1em] opacity-50"
                 xmlns="http://www.w3.org/2000/svg"
@@ -65,7 +68,7 @@ const Signup = () => {
               <input
                 type="input"
                 id="username"
-                className="input input-bordered text-black bg-white w-full rounded-xl"
+                className="input input-bordered text-black bg-white rounded-xl w-full"
                 placeholder="Username"
                 pattern="[A-Za-z][A-Za-z0-9\-]*"
                 minLength="3"
@@ -86,11 +89,11 @@ const Signup = () => {
           </div>
 
           {/* Email */}
-          <div className="flex flex-col mt-4">
+          <div className="flex flex-col mt-4 relative">
             <label htmlFor="email" className="label block text-left">
               <span className="label-text text-black">Email</span>
             </label>
-            <label className="input validator bg-white  border-gray-600 rounded-xl w-full">
+            <label className="input validator bg-white  border-gray-600 rounded-xl w-full flex items-center">
               <svg
                 className="h-[1em] opacity-50"
                 xmlns="http://www.w3.org/2000/svg"
@@ -125,11 +128,11 @@ const Signup = () => {
           </div>
 
           {/* Password */}
-          <div className="flex flex-col mt-4">
+          <div className="flex flex-col mt-4 relative">
             <label htmlFor="password" className="label block text-left">
               <span className="label-text text-black">Password</span>
             </label>
-            <label className="input validator bg-white  border-gray-600 rounded-xl  w-full">
+            <label className="input validator bg-white border-gray-600 rounded-xl w-full flex items-center">
               <svg
                 className="h-[1em] opacity-50"
                 xmlns="http://www.w3.org/2000/svg"
@@ -152,7 +155,7 @@ const Signup = () => {
                 </g>
               </svg>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 className="input input-bordered text-black bg-white rounded-xl w-full"
                 placeholder="Password"
@@ -165,6 +168,49 @@ const Signup = () => {
                   setInputs({ ...inputs, password: e.target.value })
                 }
               />
+              <button
+                type="button"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13.875 18.825A10.05 10.05 0 0112 19c-.32.006-.63.01-.934.01-.266 0-.525-.005-.784-.01a10.02 10.02 0 01-3.75-4.857 10.05 10.05 0 01.315-4.582A10.07 10.07 0 0112 6.89c.323-.007.636-.011.95-.011.266 0 .526.005.784.01.38.007.756.02 1.123.034a10.01 10.01 0 013.107 1.79l.419.214 1.408-1.408M18.5 16.259l-1.19-1.19M15.13 18.75l-1.19-1.19m-6.66-6.66l-1.19-1.19m-3.46 3.46L3.34 15.96m11.673-1.787a10.048 10.048 0 00-1.061-3.712 9.98 9.98 0 00-1.19.989m-2.492-3.492a9.98 9.98 0 00-1.19 0 10.047 10.047 0 01.304-4.281 10.06 10.06 0 01.475-.378m.634 1.77l-1.306 1.306m1.306-1.306l1.306 1.306"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    />
+                  </svg>
+                )}
+              </button>
             </label>
             <p className="validator-hint hidden">
               Must be more than 8 characters, including
@@ -175,28 +221,6 @@ const Signup = () => {
               <br />
               At least one uppercase letter
             </p>
-          </div>
-          {/* confirmPassword */}
-          <div className="flex flex-col mt-4">
-            <label htmlFor="confirmPassword" className="label block text-left">
-              <span className="label-text text-black">confirmPassword</span>
-            </label>
-            <label className="input validator bg-white  border-gray-600 rounded-xl  w-full">
-              <input
-                type="password"
-                id="confirmPassword"
-                className="input input-bordered text-black bg-white rounded-xl w-full"
-                placeholder="Confirm your Password"
-                required
-                minLength="8"
-                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
-                value={inputs.confirmPassword}
-                onChange={(e) =>
-                  setInputs({ ...inputs, confirmPassword: e.target.value })
-                }
-              />
-            </label>
           </div>
 
           {/* First Name */}
@@ -209,9 +233,9 @@ const Signup = () => {
               id="firstName"
               className="input input-bordered text-black bg-white  border-gray-600 rounded-xl  w-full"
               placeholder="Enter your first name"
-              value={inputs.firstName}
+              value={inputs.first_name}
               onChange={(e) =>
-                setInputs({ ...inputs, firstName: e.target.value })
+                setInputs({ ...inputs, first_name: e.target.value })
               }
             />
           </div>
@@ -226,13 +250,14 @@ const Signup = () => {
               id="lastName"
               className="input input-bordered text-black bg-white  border-gray-600 rounded-xl  w-full"
               placeholder="Enter your last name"
-              value={inputs.lastName}
+              value={inputs.last_name}
               onChange={(e) =>
-                setInputs({ ...inputs, lastName: e.target.value })
+                setInputs({ ...inputs,last_name: e.target.value })
               }
             />
           </div>
 
+          {/*Gender*/}
           <div className="flex flex-col mt-4">
             <label htmlFor="gender" className="label block text-left mb-1">
               <span className="label-text text-black">Gender</span>

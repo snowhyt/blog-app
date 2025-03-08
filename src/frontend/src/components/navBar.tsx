@@ -1,6 +1,9 @@
 // import React from "react";
 // import { Link } from "react-router-dom";
 
+
+import LogoutButton from "./logoutbutton";
+
 const NavBar = () => {
   return (
     <div className="navbar  bg-base-100 shadow-sm px-20">
@@ -27,7 +30,7 @@ const NavBar = () => {
             </a>
           </li>
           <li><a>Settings</a></li>
-          <li><a>Logout</a></li>
+          <li><LogoutButton /></li>
         </ul>
       </div>
     </div>
