@@ -6,9 +6,10 @@
   "scripts": {
     "build": "npm run build",
     "dev": "npx tsx --watch src/server.ts",
-    "up-d": "docker-compose up -d",
-    "down": "docker-compose down",
-    "down-up": "docker-compose down && docker-compose up -d"
+    "down-up": "docker-compose down && docker-compose up -d",
+  "deploy": "docker-compose up -d && cd frontend && npm run build"
+
+
   },
   "keywords": [],
   "author": "",
