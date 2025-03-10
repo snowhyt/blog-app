@@ -6,7 +6,7 @@ const Login = () => {
   return (
     <div className="flex h-screen">
       <div
-        className="w-6/10 flex flex-col gap-4 p-8 pt-40 "
+        className="w-6/10 fle22x flex-col gap-4 p-8 pt-40 "
         id="loginBackground"
       >
         {/* Left Side (Login Form) - 60% width */}
